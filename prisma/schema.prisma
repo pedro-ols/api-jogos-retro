@@ -47,7 +47,7 @@ model Record {
 model Game {
   id         String @id @default(uuid())
   name       String
-  plataform String
+  platform String
 
   records Record[]
 

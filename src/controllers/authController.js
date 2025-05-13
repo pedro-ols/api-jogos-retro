@@ -23,21 +23,21 @@ class AuthController {
           .json({ error: "Os campos de nome, email e senha são obrigatórios" });
       }
 
+      const userNickNameExists = await UserModel.findByNickName(nickName);
+      if (userNickNameExists) {
+        return res.status(400).json({ error: "Nickname já está cadastrado" });
+      }
+
       const userEmailExists = await UserModel.findByEmail(email);
       if (userEmailExists) {
         return res.status(400).json({ error: "Email já está cadastrado" });
       }
-
-      // const userNickNameExists = await UserModel.findByNickName(nickName);
-      // if(userNickNameExists) {
-      //     return res.status(400).json({ error: "Email já está cadastrado" });
-      // }
-
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const data = {
         name,
         email,
+        nickName,
         password: hashedPassword,
       };
 
